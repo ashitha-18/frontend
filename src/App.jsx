@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Center, Square, Circle } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
-import "./index.css";
 import Header from "./components/Header";
+import "./index.css";
+//import Header from "./components/Header";
 import LandingInfo from "./components/LandingInfo";
 
 function App() {
