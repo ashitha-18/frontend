@@ -146,7 +146,7 @@ function Header(props) {
   return (
     <div className="flex justify-between">
       <div className="flex items-center gap-x-2">
-        <img src="/logo.svg" />
+        <img src="/logo.svg" alt="Logo" />
         <span className="text-2xl font-bold">EQUIID</span>
       </div>
       {renderButton()}
@@ -156,5 +156,3 @@ function Header(props) {
     </div>
   );
 }
-
-export default Header;

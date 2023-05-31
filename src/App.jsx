@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./index.css";
 import Header from "./components/Header";
+//import Header from "./components/Header";
 import LandingInfo from "./components/LandingInfo";
 import axios from "axios";
 
