@@ -24,7 +24,7 @@ function App() {
     formData.append("payslipfile", selectedPaySlip);
 
     axios
-      .post("http://localhost:3000/register", formData)
+      .post("https://equi-pay.onrender.com/register", formData)
       .then(() => {
         alert("File Upload success");
       })
