@@ -1,9 +1,20 @@
+/* eslint-disable react/prop-types */
 import { Button } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useState } from "react";
 
-function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
+function Header(props) {
+  const [network, setNetwork] = useState("");
+  // eslint-disable-next-line react/prop-types
+  const { address, setAddress } = props;
+  // const { account, setAccount, network, setNetwork, setAuthReady } = props;
   function handleChange() {
     window.location.reload();
   }
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
 
   const connectWallet = async () => {
     console.log("in connect wallet");
@@ -16,9 +27,9 @@ function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-      setAccount(accounts[0]);
+      setAddress(accounts[0]);
       await checkNetwork();
-      setAuthReady(true);
+      // setAuthReady(true);
     } catch (err) {
       console.error(err);
     }
@@ -44,6 +55,7 @@ function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
           method: "wallet_switchEthereumChain",
           params: [{ chainId: "0x13881" }],
         });
+        window.ethereum.on("chainChanged", handleChange);
       } catch (error) {
         console.log(error.code);
         if (error.code === 4902) {
@@ -95,11 +107,11 @@ function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
-        setAccount(account);
+        setAddress(account);
         await checkNetwork();
         ethereum.on("accountsChanged", handleChange);
-        ethereum.on("chainChanged", handleChange);
-        setAuthReady(true);
+
+        //setAuthReady(true);
       } else {
         console.log("No authorized account found");
       }
@@ -107,11 +119,12 @@ function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
       console.error(err);
     }
   };
+  console.log(address);
 
   const renderButton = () => {
-    if (account && network != "0x13881") {
+    if (address && network != "0x13881") {
       return (
-        <Button variant="outline" handleClick={switchNetwork}>
+        <Button variant="outline" onClick={switchNetwork}>
           Switch To Mumbai
         </Button>
       );
@@ -119,10 +132,9 @@ function Header({ account, network, setAccount, setAuthReady, setNetwork }) {
     return (
       <Button variant="outline" onClick={connectWallet}>
         <p className="text-black">
-          {account ? (
+          {address ? (
             <a>
-              Wallet: {account.toString().slice(0, 6)}...
-              {account.toString().slice(-4)}
+              Wallet: {address.slice(0, 6)}...{address.slice(-4)}
             </a>
           ) : (
             <a>Connect Wallet</a>
